@@ -43,13 +43,21 @@ app.use(realtimeRoute);
 /*  global.io.on("connection",socket=>{
     console.log(socket.id);
  }); */
- io.on('connection', socket=>{
-   // all socket events here
-   console.log('id socket',socket.id);
-  socket.on('sala',(data)=>{
-    console.log("Esta es la sala que manda el cliente",data);
-  })
+ 
+ const globalDataWeather = require('./globals/globalsData');
+
+// Se escucha el evento 'sala' y se imprime el dato enviado por el cliente
+io.on('connection', socket=>{
+  // all socket events here
+  console.log('id socket',socket.id);
+ socket.on('sala',(data)=>{
+   console.log("Esta es la sala que manda el cliente ",data);
+   io.emit('almacenamientoDatos',globalDataWeather);
+ })
 });
+
+
+
 // exportación de app
 app.set('socketio', io);
 
